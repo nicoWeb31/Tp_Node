@@ -4,7 +4,8 @@
   "description": "Travail à effectuer sur les 18 & 19 mars.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "nodemon -r esm -e js,mjs,json,ejs src/index.js"
   },
   "repository": {
     "type": "git",

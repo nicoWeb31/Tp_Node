@@ -1,21 +1,21 @@
-Travail à effectuer sur les 18 & 19 mars.
+#Travail à effectuer sur les 18 & 19 mars.
 
-[Prérequis: un serveur et un client MySQL sur votre machine]
+#[Prérequis: un serveur et un client MySQL sur votre machine]
 
-Pour la base de donnée, lancez le script SQL joint dans votre client MySQL. La structure est simple et permet de représenter l'envoi et la réception de messages entre utilisateurs: https://adel.adrar-formation.eu/pluginfile.php/27906/mod_assign/intro/exercice_node_js.sql
+#Pour la base de donnée, lancez le script SQL joint dans votre client MySQL. La structure est simple et permet de représenter l'envoi et la réception de messages entre utilisateurs: https://adel.adrar-formation.eu/pluginfile.php/27906/mod_assign/intro/exercice_node_js.sql
 
-Créez un nouveau projet Node.js avec les dépendances suivantes:
+#Créez un nouveau projet Node.js avec les dépendances suivantes:
 
-express (nécessaire pour le serveur HTTP) Documentation
-mysql (pour se connecter à une base de données MySQL) Documentation
-ejs (template engine pour générer du HTML) Documentation
-body-parser (pour pouvoir parser le body JSON des requêtes HTTP)
-esm (pour pouvoir utiliser la syntaxe d'import)
+#express (nécessaire pour le serveur HTTP) Documentation
+#mysql (pour se connecter à une base de données MySQL) Documentation
+#ejs (template engine pour générer du HTML) Documentation
+#body-parser (pour pouvoir parser le body JSON des requêtes HTTP)
+#esm (pour pouvoir utiliser la syntaxe d'import)
 
-Vous devrez également avoir installé nodemon en dépendance globale pour pouvoir utiliser le rafraichissement dynamique du code. Déjà fait si vous avez suivi Node.js 2-3. Documentation
+#Vous devrez également avoir installé nodemon en dépendance globale pour pouvoir utiliser le rafraichissement dynamique du code. Déjà fait si vous avez suivi Node.js 2-3. Documentation
 
 
-Vous devez créer une application web qui répond aux requêtes HTTP suivantes:
+#Vous devez créer une application web qui répond aux requêtes HTTP suivantes:
 
 GET /users : La réponse retourne une page HTML générée à partir d'un template ejs, contenant la liste de tous les utilisateurs de l'application, et affiche pour chacun d'eux: l'id, le nom, le mot de passe, la date de création.
 Il est possible de spécifier un paramètre d'url "search" qui permettra de ne retourner que les utilisateurs dont le nom contient la chaîne de caractères spécifiée.
