@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>les utilisateurs</title>
+</head>
+<body>
+
+    <h1>liste des users</h1>
+
+    <% result.rows.forEach((user) =>  { %>
+        <li><%= user.name %> - <%= user.created_at %>  <%= user.password %>  <a href="lists/<%= user.id %>">voir plus</a></li>
+
+        <% }); %>
+</body>
+</html>
