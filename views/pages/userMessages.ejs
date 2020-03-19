@@ -7,10 +7,14 @@
 </head>
 <body>
 
-    <h1>liste des users</h1>
+    <h1>liste des messages par utilisateurs</h1>
 
-    <% result.rows.forEach((user) =>  { %>
-        <li><%= user.name %> - <%= user.created_at %>  <%= user.password %>  <a href="user/<%= user.id %>">voir plus</a></li>
+    <% result.rows.forEach((message) =>  { %>
+
+        <h1> <%= message.title %> </h1>
+        <h3>crees le <%= message.created_at %></h3>
+        <p><%= message.content %></p> 
+
 
         <% }); %>
 </body>

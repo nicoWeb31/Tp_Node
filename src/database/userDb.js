@@ -3,9 +3,17 @@ import DbConnection from "./db";
 const getUsersList = async() => {
     
     let bdd = new DbConnection();
-    return await bdd.performQuery( 'select * from users', [])
+    return await bdd.performQuery( 'select * from users')
 
 };
+
+const getUseSearch = async(name) =>{
+
+    let bdd = new DbConnection();
+    return await bdd.performQuery( "SELECT * FROM users WHERE UPPER(name) LIKE UPPER (?)",'%'+name+'%')
+
+}
+
 
 
 const getUserId = async(id) => {
@@ -31,11 +39,26 @@ const insUser = async(name,password) => {
 };
 
 
+const modUser = async(name,pass,id) => {
+    
+    let bdd = new DbConnection();
+    
+    return await bdd.performQuery( "UPDATE users SET name = ?, password = ?  WHERE id = ?", [name,pass,id])
+
+};
+
+
+
+
+
+
     export default {
         getUsersList,
+        getUseSearch,
         getUserId,
         deleteUser,
-        insUser
+        insUser,
+        modUser
 
 
     }
