@@ -1,17 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>les utilisateurs</title>
 </head>
+
 <body>
 
     <h1>liste des users</h1>
 
+    <ul>
     <% result.rows.forEach((user) =>  { %>
-        <li><%= user.name %> - <%= user.created_at %>  <%= user.password %>  <a href="user/<%= user.id %>">voir plus</a></li>
+            <li id="user<%= user.id %>"> 
+                <span id="name<%= user.id %>"><%= user.name %></span>
+                <span id="pass<%= user.id %>"><%= user.password %></span>
+                <span><%= user.created_at %></span>
+                <a href="user/<%= user.id %>">voir plus</a>
 
-        <% }); %>
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter<%= user.id %>">
+        Editer
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter<%= user.id %>" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" id="form>">
+                        <label for="fname">noms:</label><br>
+                        <input type="text" id="name" name="name" value="<%= user.name %>"><br>
+                        <label for="lname">passWord:</label><br>
+                        <input type="text" id="pass" name="pass" value="<%= user.password %>">
+ <button type="submit"  id ="btnmodal" class="btn btn-primary">Sauvgarder</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            </li>
+    <% }); %>
+
+
+            
+            
+        </ul>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+
+
+//         $(document).ready(function(){
+//         $("#btnmodal").click(function(){
+
+//         let tb = $("form")[0].serializeArray();
+        
+//         //Affiche les résultats dans la console
+
+//         console.log(tb);
+//     });
+// });
+
+
+const form = document.getElementsByTagName("form")[0];
+var nom = form.name.value;
+var pass = form.pass.value;
+
+
+console.log(form);
+
+form.addEventListener("submit", function () {
+  function sendData() {
+    var XHR = new XMLHttpRequest();
+
+    // Liez l'objet FormData et l'élément form
+    var FD = new FormData(form);
+    console.log(FD);
+    // // Définissez ce qui se passe si la soumission s'est opérée avec succès
+    // XHR.addEventListener("load", function(event) {
+    //   alert(event.target.responseText);
+    // });
+
+    // // Definissez ce qui se passe en cas d'erreur
+    // XHR.addEventListener("error", function(event) {
+    //   alert('Oups! Quelque chose s\'est mal passé.');
+    // });
+
+    // Configurez la requête
+    XHR.open("POST", "users/1");
+
+    // Les données envoyées sont ce que l'utilisateur a mis dans le formulaire
+    XHR.send(FD);
+  }
+ 
+  // Accédez à l'élément form …
+  var form = document.getElementById("myForm");
+
+  // … et prenez en charge l'événement submit.
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    sendData();
+  });
+});
+
+
+
+
+
+// console.log(form);
+
+// let data = form.name.value;
+
+// console.log(data);
+
+
+// for(let i = 0 ; i < form.length ; i++){
+
+
+//     form[i].addEventListener('submit',function(even) {
+    
+//         event.preventDefault();
+//         let hid = form.elements.hidId.value;
+//         let pass = form.elements.pass.value;
+//         console.log('test')
+//         //let donner = document.getElementById("form");
+//         console.log(pass);
+    
+//     });
+
+
+
+// }
+
+
+// let xhr = new XMLDocument();
+// xhr.open("POST", '/user/' + id);
+// var data = new FormData();
+// data.append(donner);
+// ajax.send(data);
+
+
+
+
+
+
+
+</script>
 </body>
+
 </html>
