@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+
+    <h1>liste des messages par utilisateurs</h1>
+    {% for message in messages %}
+        <h3>{{message.title}} du {{message.created_at}} </h3>
+        <p>{{message.content}}</p> 
+
+    {% endfor %}
+    
+{% endblock %}
+
+

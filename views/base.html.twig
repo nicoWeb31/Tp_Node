@@ -10,23 +10,9 @@
 </head>
 
 <body>
+    <h1>Node Api</h1>
 
-    <h1>liste des users</h1>
-
-    <ul>
-    <% result.rows.forEach((user) =>  { %>
-            <li id="user<%= user.id %>"> 
-                <span id="name<%= user.id %>"><%= user.name %></span>
-                <span id="pass<%= user.id %>"><%= user.password %></span>
-                <span><%= user.created_at %></span>
-                <a href="user/<%= user.id %>">voir plus</a>
-            </li>
-    <% }); %>
-
-
-            
-            
-        </ul>
+    {% block body %}{% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
@@ -37,6 +23,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    {% block javaScript %}{% endblock %}
 
 </body>
 

@@ -10,25 +10,19 @@ import bddReqU from '../database/userDb'; //recup du get by id pour verification
 const getMess = async(req, res) => {
 
     const{search} = req.query;
-    console.log(search);
     const {id} = req.params;
+    console.log(id);
+    let messages;
 
     if(search){
 
-        let result = await bddReq.getMessSearch(search);
-        console.log(result);
-        res.status(200).render('pages/userMessages' ,{result});
-
+        messages = await bddReq.getMessSearch(id,search);
+    }else{
+        
+        messages = await bddReq.getMessage(id);
     }
-
-    
-    else{
-
-        let result = await bddReq.getMessage(id);
-        res.status(200).render('pages/userMessages' ,{result});
-
-    }
-    
+    res.status(200).render('pages/userMessages.html.twig' ,{ id: parseInt(id, 10), messages: messages.rows });
+    console.log(messages.rows);
 
 };
 

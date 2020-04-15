@@ -14,14 +14,14 @@ const getU = async(req, res) => {
         
         let result = await bddReq.getUseSearch(search);
         console.log(result);
-        res.status(200).render('pages/usersListe' ,{result});
+        res.status(200).render('pages/usersListe.html.twig' ,{result});
     }
     
     else{
         
         
         let result = await bddReq.getUsersList();
-        res.status(200).render('pages/usersListe' ,{result});
+        res.status(200).render('pages/usersListe.html.twig' ,{result});
         console.log(result);
 
     }
@@ -39,7 +39,7 @@ const getUserByID = async(req, res) => {
     console.log(result);
     const us = {users:result.rows}
     const info = us.users[0];
-    res.status(200).render('pages/user',{info,methode});
+    res.status(200).render('pages/user.html.twig',{info,methode});
 
 };
 
@@ -53,7 +53,7 @@ const delUser = async (req, res) => {
     console.log(id);
     let del = await bddReq.deleteUser(id);
     let methode = "delete";
-    res.status(200).render('pages/user', {del,methode});
+    res.status(200).render('pages/user.html.twig', {del,methode});
     console.log(methode);
 };
 
