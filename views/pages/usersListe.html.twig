@@ -6,19 +6,70 @@
 
 <ul>
     {% for user in result.rows %}
-        <li><
-            span id='userId{{user.id}}'>{{user.id}}</span>-
+        <li>
+            <span id ='userId{{user.id}}'>{{user.id}}</span>-
             <span id ='userName{{user.name}}'>{{user.name}}</span>-
             <span id ='userPassword{{user.password}}'>{{user.password}}</span>-
             <span id='userCreatedAt{{user.created_at}}'>{{user.created_at}}</span><a href="user/{{user.id}}">voir plus</a> 
             <button type="button" onclick="editUser('{{user.id}}','{{user.name}}','{{user.password}}')">Edit user</button>
+            <button class="btn btn-danger " onclick="deleteUserRequest('{{user.id}}')">suppr</button>
         </li>
     {% endfor %} 
 </ul>
 
+<div class="p-5">
+
+    <h3>Add user</h3>
+
+    <form action="">
+        <label for="">Name</label>
+        <input type="text" name="name" id="nameAdd">
+        <lavel>password</lavel>
+        <input type="text" name="pass" id="passAdd">
+        <button type="button" onclick="AddUser(name,pass)">Ajouter un user</button>
+        
+    </form>
+
+
+</div>
+
+<h3 class="p-5" >edit user</h3>
+
 
 <script>
+
+        //Add  user
+        function AddUser() {
+        let inputUseAddName = document.getElementById("nameAdd").value;
+        console.log(inputUseAddName);
+        let inputUseAddPass = document.getElementById("passAdd").value;
+        console.log(inputUseAddPass);
+        let inputAdmin = document.getElementById("inputAdmin").value;
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                location.reload();
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("PUT", "http://localhost:3000/users/");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+            "name":inputUseAddName,
+            "password":inputUseAddPass,
+            "adminPassword": inputAdmin
+    
+        }));
+    }
+
+
+
+
     function editUser(id, name, password) {
+        //let inputAdminPass = document.getElementById("inputAdminPassword")
         let inputId = document.getElementById("inputId");
         let inputName = document.getElementById("inputName");
         let inputPassword = document.getElementById("inputPassword");
@@ -29,22 +80,49 @@
         inputId.value = id;
         inputName.value = name;
         inputPassword.value = password;
+        //inputAdminPass.value = adminPassword;
+
         inputName.style.visibility = "visible";
         inputPassword.style.visibility = "visible";
         inputSubmit.style.visibility = "visible";
+        //inputAdminPass.style.visibility = "visible";
+
 
         inputSubmit.addEventListener("click", editUserRequest);
+    }
+
+    //suppression user
+    function deleteUserRequest(id) {
+        let inputAdmin = document.getElementById("inputAdmin").value;
+        console.log(inputAdmin)
+        let xhttp = new XMLHttpRequest();
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                location.reload();
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("DELETE", "http://localhost:3000/user/" + id);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+
+            "adminPassword": inputAdmin
+        }));
     }
 
     function editUserRequest() {
         let inputId = document.getElementById("inputId");
         let inputName = document.getElementById("inputName");
         let inputPassword = document.getElementById("inputPassword");
+        let inputAdmin = document.getElementById("inputAdmin");
+
         let xhttp = new XMLHttpRequest();
         xhttp.addEventListener("load", function () {
             if (this.readyState === 4 && this.status === 200) {
-                // Typical action to be performed when the document is ready:
                 alert(xhttp.responseText);
+                location.reload();
             } else {
                 alert(xhttp.responseText);
             }
@@ -54,7 +132,7 @@
         xhttp.send(JSON.stringify({
             "name": inputName.value,
             "newpassword": inputPassword.value,
-            adminPassword: "7FERGsd9$!wpgnvm#"
+            adminPassword: inputAdmin.value
         }));
     }
 
@@ -73,6 +151,14 @@
     inputName.setAttribute('name', "username");
     inputName.style.visibility = "hidden";
 
+
+    //admin Pass
+    // let inputAdminPass = document.createElement("input");
+    // inputAdminPass.setAttribute('id', "inputAdminPassword");
+    // inputAdminPass.setAttribute('type', "text");
+    // inputAdminPass.setAttribute('name', "passwordAdmin");
+
+
     let inputPassword = document.createElement("input");
     inputPassword.setAttribute('id', "inputPassword");
     inputPassword.setAttribute('type', "text");
@@ -87,8 +173,19 @@
 
     form.appendChild(inputName);
     form.appendChild(inputPassword);
+    // form.appendChild(inputAdminPass);
     form.appendChild(inputSubmit);
     form.appendChild(inputId);
+
+    let labelAdmin = document.createElement("span");
+    labelAdmin.innerHTML = "mot de passe d'administrateur: ";
+    let inputAdmin = document.createElement("input");
+    inputAdmin.setAttribute('id',"inputAdmin");
+    inputAdmin.setAttribute('type',"text");
+    inputAdmin.setAttribute('value',"admin");
+
+    document.getElementsByTagName('body')[0].appendChild(labelAdmin);
+    document.getElementsByTagName('body')[0].appendChild(inputAdmin);
 
     document.getElementsByTagName('body')[0].appendChild(form);
 </script>

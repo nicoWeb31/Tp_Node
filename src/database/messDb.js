@@ -31,11 +31,29 @@ const insMessage = async(idS,idR,title,content) => {
 };
 
 
+const deleteMessage = async(id) => {
+    
+    let bdd = new DbConnection();
+    return await bdd.performQuery( 'Delete from messages where id = ?', [id])
+
+};
+
+const modMessage = async(title,content,id) => {
+    
+    let bdd = new DbConnection();
+    
+    return await bdd.performQuery( "UPDATE messages SET title = ?, content = ?  WHERE id = ?", [title,content,id])
+
+};
+
+
 
 export default {
 
     getMessage,
     insMessage,
-    getMessSearch
+    getMessSearch,
+    deleteMessage,
+    modMessage
 
 }

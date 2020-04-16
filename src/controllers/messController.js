@@ -56,14 +56,53 @@ const inserMess = async(req,res) => {
 };
 
 
+const deleteMessage = async(req,res) => {
 
+    const {id} = req.params;
+    // const {adminPassword} = req.body;
+    //console.log(adminPassword);
+
+    // if (adminPassword === "1111"){
+
+        let del = await bddReq.deleteMessage(id);
+        //let methode = "delete";
+        //res.status(200).render('pages/user.html.twig', {del,methode});
+        res.status(200).send('Message supprimer avec success');
+
+        
+
+    // } else {res.status(403).send(' le mode de passe ne corespond pas');}
+
+};
+
+// =============================================================================
+// modification ---POST-----
+// =============================================================================
+const modifMessage = async(req,res) => {
+
+
+    
+    const {title,content} = req.body;
+    console.log(title);
+    console.log(content);
+    
+    
+    const {id} = req.params;
+    console.log(id);
+    await bddReq.modMessage(title,content,id);
+    res.status(200).send('user mdifier avec success');
+
+
+};
 
 
 
 export default {
 
     getMess,
-    inserMess
+    inserMess,
+    deleteMessage,
+    modifMessage
 
     
     }; 

@@ -6,10 +6,176 @@
     <h1>liste des messages par utilisateurs</h1>
     {% for message in messages %}
         <h3>{{message.title}} du {{message.created_at}} </h3>
-        <p>{{message.content}}</p> 
-
+        <p>{{message.content}}</p>
+        <span>{{message.id}}</span>
+        <button class="btn btn-danger " onclick="deleteMessageRequest('{{message.id}}')">suppr</button>
+        <button type="button" onclick="editMessage('{{message.id}}','{{message.title}}','{{message.content}}')">Edit user</button>
     {% endfor %}
+
+
+    <div class="p-5">
+
+        <h3>Add messages</h3>
     
+        <form action="">
+            <label for="">l’identifiant du récepteur</label>
+            <input type="text" name="id" id="idEm">
+            <lavel>le mot de passe de l’émetteur</lavel>
+            <input type="text" name="pass" id="passEmet">
+            <label for="">titre</label>
+            <input type="text" name="titre" id="titre">
+            <label for="">content</label>
+            <input type="text" name="content" id="content">
+            <button type="button" class = "btn btn-success"onclick="AddMessage()">Ajouter un user</button>
+            
+        </form>
+    
+    
+    </div>
+
+    
+    
+    
+    <script>
+
+        //Add  messages
+        function AddMessage() {
+        let idEm = document.getElementById("idEm").value;
+        console.log(idEm);
+        let passEmet = document.getElementById("passEmet").value;
+        console.log(passEmet);
+        let titre = document.getElementById("titre").value;
+        console.log(titre);
+        let content = document.getElementById("content").value;
+        console.log(content);
+
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                location.reload();
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("PUT", "http://localhost:3000/user/"+idEm+"/message");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+
+            receiver:idEm,
+            password:passEmet,
+            title:titre,
+            content:content
+    
+        }));
+    }
+        
+//suppression messages
+function deleteMessageRequest(id) {
+        //let inputAdmin = document.getElementById("inputAdmin").value;
+        //console.log(inputAdmin)
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                location.reload();
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("DELETE", "http://localhost:3000/user/message/" + id);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+
+            //"adminPassword": inputAdmin
+        }));
+    }
+
+    
+
+    // <!-- =================================================================== -->
+    // <!-- creation formuulaire de modif -->
+    // <!-- =================================================================== -->
+    let form = document.createElement("form");
+    console.log(form);
+
+    let inputId = document.createElement("input");
+    inputId.setAttribute('id', "inputId");
+    inputId.setAttribute('type', "text");
+    inputId.setAttribute('name', "userId");
+    inputId.style.visibility = "hidden";
+
+
+    let inputTitle = document.createElement("input");
+    inputTitle.setAttribute('id', "inputTitle");
+    inputTitle.setAttribute('type', "text");
+    inputTitle.setAttribute('name', "password");
+    inputTitle.style.visibility = "hidden";
+
+    let inputContent = document.createElement("input");
+    inputContent.setAttribute('id', "inputContent");
+    inputContent.setAttribute('type', "text");
+    inputContent.setAttribute('value', "Editer !");
+    inputContent.style.visibility = "hidden";
+
+    let inputSubmit = document.createElement("input");
+    inputSubmit.setAttribute('id', "inputSubmit");
+    inputSubmit.setAttribute('type', "button");
+    inputSubmit.setAttribute('value', "Editer !");
+    inputSubmit.style.visibility = "hidden";
+
+    form.appendChild(inputTitle);
+    form.appendChild(inputContent);
+    form.appendChild(inputSubmit);
+    form.appendChild(inputId);
+
+    document.getElementsByTagName('body')[0].appendChild(form);
+
+    function editMessage(id,title,content) {
+
+        let inputId = document.getElementById("inputId");
+        let inputTitle = document.getElementById("inputTitle");
+        let inputContent = document.getElementById("inputContent");
+        let inputSubmit = document.getElementById("inputSubmit");
+
+        inputSubmit.removeEventListener("click", editMessageRequest)
+
+        inputId.value = id;
+        inputTitle.value = title;
+        inputContent.value = content;
+        
+
+        inputTitle.style.visibility = "visible";
+        inputContent.style.visibility = "visible";
+        inputSubmit.style.visibility = "visible";
+
+        inputSubmit.addEventListener("click", editMessageRequest)
+    }
+
+    function editMessageRequest() {
+        let inputId = document.getElementById("inputId").value;
+        let inputTitle = document.getElementById("inputTitle").value;
+        let inputContent = document.getElementById("inputContent").value;
+        let inputAdmin = document.getElementById("inputAdmin");
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                location.reload();
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("POST", "http://localhost:3000/user/message/" + inputId);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+            "title": inputTitle,
+            "content": inputContent,
+        }));
+    }
+    </script>
+
 {% endblock %}
-
-

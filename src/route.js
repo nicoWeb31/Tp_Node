@@ -22,6 +22,10 @@ const api = ({}) => {
     //route du message controller
     routes.get('/user/:id/messages',messController.getMess );
     routes.put('/user/:id/message',messController.inserMess);
+    routes.delete('/user/message/:id',messController.deleteMessage);
+    routes.post("/user/message/:id",messController.modifMessage);
+
+
 
 
     return routes;

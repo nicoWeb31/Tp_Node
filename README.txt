@@ -62,3 +62,88 @@ Exemple de body JSON: {"receiver": 2, "password": "abcd", "title": "Salut !", "c
 Vous veillerez à bien structurer votre code. Les contrôleurs, les templates et les fonctions d'accès à la base de donnée doivent avoir leurs dossiers dédiés.
 
 Pour le rendu, vous déposerez simplement un .zip de votre répertoire de travail.
+
+Projet Node.js : saisie du mot de passe
+d’administration sur l’interface (1)
+1. Modifiez la page HTML retournée par la requête GET /users :
+1.1. Ajoutez un champ de mot de passe avec un label "mot de passe administrateur: " en bas de page
+1.2. Utilisez la valeur de ce champ pour le paramètre adminPassword de la requête AJAX qui est
+envoyée quand on clique sur le bouton pour éditer un utilisateur (celui avec le label "Editer !")
+1.3. Pré-remplissez le champ avec la bonne valeur pour ne pas avoir à la retaper à chaque fois
+1.4. Modifiez la requête AJAX pour rafraichir automatiquement la page à la réception du résultat de la
+requête, en utilisant location.reload();
+2. Côté serveur, modifiez le traitement de la requête POST /user/:userId : Simplifiez le mot de passe
+d’administration qui est attendu par le serveur pour qu’il soit plus simple à taper dans l’interface ( c’est dans
+la fonction postUser du userController )
+3. Vérifiez que la modification d’un utilisateur fonctionne encore et que la page se rafraîchit automatiquement
+pour montrer immédiatement les modifications
+
+Projet Node.js : suppression d’un utilisateur
+via l’interface (2)
+1. Modifiez la page HTML retournée par la requête GET /users :
+1.1. Ajoutez un bouton à côté de chaque utilisateur de la liste, permettant de supprimer l’utilisateur
+1.2. Quand on clique sur le bouton, une requête AJAX est envoyée au serveur sur la route DELETE
+/user/:userId
+1.3. Le corps de la requête contiendra le paramètre adminPassword avec la valeur issue du champ dédié
+1.4. Affichez une confirmation comme quoi l’opération s’est bien passée ou pas
+1.5. Rafraîchissez automatiquement la page à la réception du résultat de la requête
+2. Côté serveur, modifiez le traitement de la requête DELETE /user/:userId (qui permet de supprimer un
+utilisateur):
+2.1. On veut que seul les utilisateurs fournissant le mot de passe d’administrateur puissent supprimer un
+utilisateur: si le corps de la requête contient un attribut adminPassword et que cet attribut vaut la
+valeur attendue, on supprime l’utilisateur. Sinon, on retourne une erreur 403.
+3. Testez la suppression d’un utilisateur. La page doit se rafraîchir automatiquement.
+
+Projet Node.js : création d’un utilisateur via
+l’interface (3)
+1. Modifiez la page HTML retournée par la requête GET /users :
+1.1. Ajoutez un formulaire en bas de page avec un titre et deux champs texte pour le nom et le mot de
+passe du nouvel utilisateur, et un bouton avec le label "Créer"
+1.2. Quand on clique sur le bouton, une requête AJAX est envoyée au serveur sur la route PUT /user
+avec dans le corps de requête les paramètres nécessaires pour créer un nouvel utilisateur
+1.3. Affichez une confirmation comme quoi l’opération s’est bien passée ou pas
+1.4. Rafraîchissez automatiquement la page à la réception du résultat de la requête
+2. Côté serveur, modifiez le traitement de la requête PUT /user (qui permet de créer un nouvel utilisateur):
+2.1. On veut que seul les utilisateurs fournissant le mot de passe d’administrateur puissent créer un
+utilisateur: si le corps de la requête contient un attribut adminPassword et que cet attribut vaut la
+valeur attendue, on supprime l’utilisateur. Sinon, on retourne une erreur 403.
+3. Testez la création d’un nouvel utilisateur. La page doit se rafraîchir automatiquement.
+
+Projet Node.js : envoi d’un message via
+l’interface (4)
+1. Modifiez la page HTML retournée par la requête GET /user/:userId/messages :
+1.1. Ajoutez en bas de page un formulaire d’envoi de nouveau message qui doit permettre de:
+1.1.1. Saisir l’identifiant du récepteur
+1.1.2. Saisir le mot de passe de l’émetteur (qui est l’utilisateur avec l’identifiant :userId dans l’url)
+1.1.3. Saisir le titre du message
+1.1.4. Saisir le contenu du message
+1.1.5. Cliquer sur un bouton d’envoi
+1.2. Quand on clique sur le bouton d’envoi, une requête AJAX est envoyée au serveur sur la route PUT
+/user/:userId/message , avec dans le corps de requête les paramètres nécessaires pour créer un
+nouveau message
+1.3. Affichez une confirmation comme quoi l’opération s’est bien passée ou pas
+1.4. Rafraîchissez automatiquement la page à la réception du résultat de la requête
+2. Testez l’envoi d’un nouveau message. La page doit se rafraîchir automatiquement.
+
+Projet Node.js : suppression d’un message
+via l’interface (5)
+1. Modifiez la page HTML retournée par la requête GET /user/:userId/messages :
+1.1. Ajoutez un bouton à côté de chaque message de la liste, permettant de supprimer le message
+1.2. Quand on clique sur le bouton, une requête AJAX est envoyée au serveur sur la route DELETE
+/message/:messageId
+2. Côté serveur, créez la route DELETE /message/:messageId , qui doit supprimer le message spécifié de la
+base de données.
+3. Testez la suppression d’un message. La page doit se rafraîchir automatiquement.
+
+
+Projet Node.js : modification d’un message
+via l’interface (6)
+● C’est un exercice bonus, à faire si vous êtes en avance:
+○ Faites en sorte qu’on puisse modifier un message via l’interface
+
+Projet Node.js
+● À ce stade, vous devez avoir un serveur qui permet de:
+○ Gérer les utilisateurs (création, modification, suppression)
+○ Gérer les messages entre utilisateurs (envoi, suppression)
+● Vous n’avez plus besoin de l’intermédiaire de postman pour ces requêtes, tout peut être fait
+via l’interface web. Vous avez en quelque sorte une application web "complète

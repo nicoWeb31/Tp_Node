@@ -50,11 +50,20 @@ const getUserByID = async(req, res) => {
 
 const delUser = async (req, res) => {
     const {id} = req.params;
-    console.log(id);
-    let del = await bddReq.deleteUser(id);
-    let methode = "delete";
-    res.status(200).render('pages/user.html.twig', {del,methode});
-    console.log(methode);
+    const {adminPassword} = req.body;
+    console.log(adminPassword);
+
+    if (adminPassword === "1111"){
+
+        let del = await bddReq.deleteUser(id);
+        let methode = "delete";
+        //res.status(200).render('pages/user.html.twig', {del,methode});
+        res.status(200).send('User supprimer avec success');
+
+        
+
+    } else {res.status(403).send(' le mode de passe ne corespond pas');}
+    
 };
 
 
@@ -63,9 +72,13 @@ const delUser = async (req, res) => {
 // =============================================================================
 const inserUser = async(req,res) => {
     console.log(req.body);
-    const {name,password} = req.body;
+    const {name,password,adminPassword} = req.body;
+
+    if (adminPassword === "1111" && name && password ){
+
     await bddReq.insUser(name,password);
     res.status(200).send('user ajouter avec success');
+    }else {res.status(403).send(' il y a un problémes');}
 };
 
 // =============================================================================
@@ -90,7 +103,7 @@ const modifUser = async(req,res) => {
     // const {id} = req.params;
 
 
-    if(info.password === password || adminPassword === '7FERGsd9$!wpgnvm#'){
+    if(info.password === password || adminPassword === '1111'){
 
 
         await bddReq.modUser(name,newpassword,id);
