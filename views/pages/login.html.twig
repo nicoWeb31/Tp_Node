@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+<h3>Add user</h3>
+
+<form >
+    <label for="">Name</label>
+    <input type="text" name="username" id="username">
+    <lavel>password</lavel>
+    <input type="text" name="pass" id="pass">
+    <button type="button" onclick="login()">login</button>
+    
+</form>
+
+<script>
+
+    function login() {
+        let inputlogin = document.getElementById("username").value;
+
+        let inputPass = document.getElementById("pass").value;
+
+
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.addEventListener("load", function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+                window.location. assign(this.responseURL) ;
+            } else {
+                alert(xhttp.responseText);
+            }
+        });
+        xhttp.open("post", "http://localhost:3000/login");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+            "username":inputlogin,
+            "password":inputPass
+        }));
+    }
+</script>
+{% endblock %}

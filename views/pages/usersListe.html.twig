@@ -59,8 +59,8 @@
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify({
             "name":inputUseAddName,
-            "password":inputUseAddPass,
-            "adminPassword": inputAdmin
+            "password":inputUseAddPass
+            // "adminPassword": inputAdmin
     
         }));
     }
@@ -150,14 +150,6 @@
     inputName.setAttribute('type', "text");
     inputName.setAttribute('name', "username");
     inputName.style.visibility = "hidden";
-
-
-    //admin Pass
-    // let inputAdminPass = document.createElement("input");
-    // inputAdminPass.setAttribute('id', "inputAdminPassword");
-    // inputAdminPass.setAttribute('type', "text");
-    // inputAdminPass.setAttribute('name', "passwordAdmin");
-
 
     let inputPassword = document.createElement("input");
     inputPassword.setAttribute('id', "inputPassword");
