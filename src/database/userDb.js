@@ -32,6 +32,7 @@ const getUserId = async(id) => {
 const deleteUser = async(id) => {
     
     let bdd = new DbConnection();
+    await bdd.performQuery("DELETE FROM messages WHERE id_sender=? OR id_receiver=?", [id, id])
     return await bdd.performQuery( 'Delete from users where id = ?', [id])
 
 };

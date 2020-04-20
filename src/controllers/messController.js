@@ -29,49 +29,51 @@ const getMess = async(req, res) => {
 
 // =============================================================================
 // insert message 
+// Un utilisateur ne peut envoyer un message qu’en son nom ( PUT /user/:userId/message )  ok 
 // =============================================================================
 
 const inserMess = async(req,res) => {
 
 
-    
-    //----test si le password ---//
+    const {receiver,title,content} = req.body;
+    console.log(req.body);
     const {id} = req.params;
-    let result = await bddReqU.getUserId(id);
-    const us = {users:result.rows}
-    const info = us.users[0];
-    // console.log(info.password);
+    console.log(id);
 
-    const {receiver,password,title,content} = req.body;
+    const user = await bddReqU.getUserId(req.session.passport.user);
 
-    if(info.password === password){
+
+    if(parseInt(id, 10) === req.session.passport.user){
 
         await bddReq.insMessage(id,receiver,title,content);
         res.status(200).send('message ajouter avec success');
     }
 
-    else{res.status(403).send(' le mode de passe ne corespond pas');}
+    else{res.status(403).send('pas autoriser a inserer le message');}
 
 
 };
 
 
+
+// =============================================================================
+// delete Message
+//Seul un admin peut supprimer un message (DELETE /message/:messageId)
+// =============================================================================
 const deleteMessage = async(req,res) => {
 
     const {id} = req.params;
-    // const {adminPassword} = req.body;
-    //console.log(adminPassword);
 
-    // if (adminPassword === "1111"){
+
+
+    const user = await bddReqU.getUserId(req.session.passport.user);
+    console.log(user);
+    if (user.rows[0].is_admin === 1) {
 
         let del = await bddReq.deleteMessage(id);
-        //let methode = "delete";
-        //res.status(200).render('pages/user.html.twig', {del,methode});
         res.status(200).send('Message supprimer avec success');
 
-        
-
-    // } else {res.status(403).send(' le mode de passe ne corespond pas');}
+    } else {res.status(403).send('pas autoriser a supprimer le message');}
 
 };
 

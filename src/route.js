@@ -22,7 +22,7 @@ const api = ({}) => {
 
     //route du message controller
     routes.get('/user/:id/messages',passport.authenticationMiddleware(),messController.getMess );
-    routes.put('/user/:id/message',passport.authenticationMiddleware(),messController.inserMess);
+    routes.put('/user/:id/messages',passport.authenticationMiddleware(),messController.inserMess);
     routes.delete('/user/message/:id',passport.authenticationMiddleware(),messController.deleteMessage);
     routes.post("/user/message/:id",passport.authenticationMiddleware(),messController.modifMessage);
 

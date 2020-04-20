@@ -147,3 +147,43 @@ Projet Node.js
 ○ Gérer les messages entre utilisateurs (envoi, suppression)
 ● Vous n’avez plus besoin de l’intermédiaire de postman pour ces requêtes, tout peut être fait
 via l’interface web. Vous avez en quelque sorte une application web "complète
+
+
+// =============================================================================
+// tp du 21 
+// =============================================================================
+
+Travail à rendre pour le 21 avril au plus tard.
+
+Vous reprendrez le serveur à partir de la correction du cours précédent (Node.js-5), envoyée par discord mais que vous pouvez aussi récupérer ici
+
+Le corrigé s'arrête à l'exercice 8.1.b ("Un utilisateur ne peut-être modifié que par lui-même ou par un administrateur")
+
+Vous implémenterez les règles manquantes, également expliquées sur le PDF:
+
+
+Un utilisateur ne peut lister que ses propres messages, sauf si il est admin (GET /user/:userId/messages)
+
+Un utilisateur ne peut envoyer un message qu’en son nom (PUT /user/:userId/message)
+
+Seul un admin peut supprimer un utilisateur (DELETE /user/:userId)
+
+Seul un admin peut supprimer un message (DELETE /message/:messageId)
+
+
+Si un utilisateur n’a pas les droits pour effectuer une requête, le serveur doit renvoyer l’erreur 403.
+
+Ensuite, comme expliqué sur la dernière slide:
+
+
+Modifiez l’interface web (les templates ejs) pour que l’utilisateur ne puisse voir que les boutons pour les actions qu’il est effectivement autorisé à faire, par exemple:
+
+Un user ne peut pas voir les boutons de suppression, seul un admin peut
+
+Un user ne peut voir le bouton d’édition que pour son propre profil, l’admin peut voir tous les boutons d’édition de profil
+
+Seul l’admin peut voir le formulaire de création d’utilisateur
+
+....
+
+Pour le rendu, vous déposerez un fichier zip avec le code source du serveur (pas besoin d'inclure le répertoire node_modules).

@@ -10,12 +10,31 @@
             <span id ='userId{{user.id}}'>{{user.id}}</span>-
             <span id ='userName{{user.name}}'>{{user.name}}</span>-
             <span id ='userPassword{{user.password}}'>{{user.password}}</span>-
-            <span id='userCreatedAt{{user.created_at}}'>{{user.created_at}}</span><a href="user/{{user.id}}">voir plus</a> 
+            <span id='userCreatedAt{{user.created_at}}'>{{user.created_at}}</span><a href="user/{{user.id}}">voir plus</a>
+
+
+            {# condition affichage button edition user #}
+            {% if user.id == userSessID %}
             <button type="button" onclick="editUser('{{user.id}}','{{user.name}}','{{user.password}}')">Edit user</button>
-            <button class="btn btn-danger " onclick="deleteUserRequest('{{user.id}}')">suppr</button>
+            {% endif %}
+
+
+
+            {# condition affichage button #}
+            {% if admin == true %}
+                <button class="btn btn-danger " onclick="deleteUserRequest('{{user.id}}')">suppr</button>
+            {% endif %}
+            
+
         </li>
     {% endfor %} 
 </ul>
+
+
+{# codition affichage du formulaire d'ajout de nouvelle utilisateurs #}
+
+
+{% if admin == true %}
 
 <div class="p-5">
 
@@ -32,6 +51,8 @@
 
 
 </div>
+
+{% endif %}
 
 <h3 class="p-5" >edit user</h3>
 

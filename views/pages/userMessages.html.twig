@@ -7,43 +7,45 @@
     {% for message in messages %}
         <h3>{{message.title}} du {{message.created_at}} </h3>
         <p>{{message.content}}</p>
-        <span>{{message.id}}</span>
+        <span >{{message.id}}</span>
+
         <button class="btn btn-danger " onclick="deleteMessageRequest('{{message.id}}')">suppr</button>
-        <button type="button" onclick="editMessage('{{message.id}}','{{message.title}}','{{message.content}}')">Edit user</button>
+        <button type="button" onclick="editMessage('{{message.id}}','{{message.title}}','{{message.content}}')">Edit message</button>
+        <div class="p-5">
+    
+            <h3>Add messages</h3>
+        
+            <form action="">
+                <label for="">l’identifiant du récepteur</label>
+                <input type="text" name="id" id="idEm">
+                {# <lavel>le mot de passe de l’émetteur</lavel>
+                <input type="text" name="pass" id="passEmet"> #}
+                <label for="">titre</label>
+                <input type="text" name="titre" id="titre">
+                <input type="hidden" name="idSender" id="idSender" value="{{message.id_sender}}">
+
+                <label for="">content</label>
+                <input type="text" name="content" id="content">
+                <button type="button" class = "btn btn-success"onclick="AddMessage()">Add message</button>
+                
+            </form>
+        
+        
+        </div>
     {% endfor %}
 
 
-    <div class="p-5">
-
-        <h3>Add messages</h3>
-    
-        <form action="">
-            <label for="">l’identifiant du récepteur</label>
-            <input type="text" name="id" id="idEm">
-            <lavel>le mot de passe de l’émetteur</lavel>
-            <input type="text" name="pass" id="passEmet">
-            <label for="">titre</label>
-            <input type="text" name="titre" id="titre">
-            <label for="">content</label>
-            <input type="text" name="content" id="content">
-            <button type="button" class = "btn btn-success"onclick="AddMessage()">Ajouter un user</button>
-            
-        </form>
-    
-    
-    </div>
 
     
     
     
     <script>
 
-        //Add  messages
+        let idSender = document.getElementById("idSender").value;
+        console.log(idSender);
         function AddMessage() {
         let idEm = document.getElementById("idEm").value;
         console.log(idEm);
-        let passEmet = document.getElementById("passEmet").value;
-        console.log(passEmet);
         let titre = document.getElementById("titre").value;
         console.log(titre);
         let content = document.getElementById("content").value;
@@ -59,12 +61,11 @@
                 alert(xhttp.responseText);
             }
         });
-        xhttp.open("PUT", "http://localhost:3000/user/"+idEm+"/message");
+        xhttp.open("PUT", "http://localhost:3000/user/"+idSender+"/messages");
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify({
 
             receiver:idEm,
-            password:passEmet,
             title:titre,
             content:content
     

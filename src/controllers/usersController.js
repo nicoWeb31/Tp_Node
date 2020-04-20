@@ -8,26 +8,37 @@ import bcrypt from "bcrypt";
 
 const getU = async (req, res) => {
 
-    const {
-        search
-    } = req.query;
-    console.log(search);
+    const {search} = req.query;
+
+    // condition btn et id user session
+    let admin ;
+
+    const userSess = await bddReq.getUserId(req.session.passport.user);
+    const userSessID = userSess.rows[0].id;
+
+    if (userSess.rows[0].is_admin === 1){
+        admin = true;
+    }else{
+        admin = false;
+    };
+
+    //codition id useur
 
     if (search) {
 
         let result = await bddReq.getUseSearch(search);
-        console.log(result);
+
         res.status(200).render('pages/usersListe.html.twig', {
-            result
+            result,admin,userSessID
         });
     } else {
 
 
         let result = await bddReq.getUsersList();
         res.status(200).render('pages/usersListe.html.twig', {
-            result
+            result,admin,userSessID
         });
-        console.log(result);
+
 
     }
 
@@ -43,7 +54,7 @@ const getUserByID = async (req, res) => {
     } = req.params;
     let methode = "get";
     let result = await bddReq.getUserId(id);
-    console.log(result);
+
     const us = {
         users: result.rows
     }
@@ -58,18 +69,18 @@ const getUserByID = async (req, res) => {
 
 // =============================================================================
 // delete by Id ---delete---
+//Seul un admin peut supprimer un utilisateur (DELETE /user/:userId)
 // =============================================================================
 
 const delUser = async (req, res) => {
     const {
         id
     } = req.params;
-    const {
-        adminPassword
-    } = req.body;
-    console.log(adminPassword);
 
-    if (adminPassword === "1111") {
+
+    const user = await bddReq.getUserId(req.session.passport.user);
+
+    if (user.rows[0].is_admin === 1) {
 
         let del = await bddReq.deleteUser(id);
         let methode = "delete";
@@ -79,25 +90,28 @@ const delUser = async (req, res) => {
 
 
     } else {
-        res.status(403).send(' le mode de passe ne corespond pas');
+        res.status(403).send('pas autoriser a supprimer l\'utilisateur');
     }
 
 };
 
 
 // =============================================================================
-//  add user ok postman   ----PUT-----
+//  add user ok postman   ----PUT----- avec condition de controle si admin
 // =============================================================================
 const inserUser = async (req, res) => {
-    console.log(req.body);
+
     const {
         name,
         password
     } = req.body;
-    const user = await userDb.getUser(req.session.passport.user);
-    if (user.rows[0].is_admin === 1) {
+    const user = await bddReq.getUserId(req.session.passport.user);
 
-        await bddReq.putUser(name, await bcrypt.hashSync(password, 12));
+
+    
+    if (user.rows[0].is_admin === 1) {
+        
+        await bddReq.insUser(name, await bcrypt.hashSync(password, 12));
         res.status(200).send(`L'utilisateur ${name} a bien été inséré`);
     } else {
         res.status(403).send("Vous n'avez pas la permission d'effectuer l'opération");
@@ -105,22 +119,17 @@ const inserUser = async (req, res) => {
 };
 
 // =============================================================================
-// modification ---POST-----
+// modification ---POST----- avec condition de controle
 // =============================================================================
 const modifUser = async (req, res) => {
 
-            const {
-                id
-            } = req.params;
-            const {
-                name,
-                newpassword
-            } = req.body;
-            const user = await userDb.getUser(req.session.passport.user);
+            const {id} = req.params;
+            const {name,newpassword} = req.body;
+            const user = await bddReq.getUserId(req.session.passport.user);
 
-            if (parseInt(userId, 10) === req.session.passport.user || user.rows[0].is_admin === 1) {
+            if (parseInt(id, 10) === req.session.passport.user || user.rows[0].is_admin === 1) {
                 if (user.rows.length > 0) {
-                    await bddReq.postUser(id, name, await bcrypt.hashSync(newpassword, 12));
+                    await bddReq.modUser(id, name, await bcrypt.hashSync(newpassword, 12));
                     res.status(200).send("Utilisateur modifié");
                 } else {
                     res.status(404).send("Not found");
