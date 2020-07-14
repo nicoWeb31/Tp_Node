@@ -2,8 +2,6 @@
 
 #[Prérequis: un serveur et un client MySQL sur votre machine]
 
-#Pour la base de donnée, lancez le script SQL joint dans votre client MySQL. La structure est simple et permet de représenter l'envoi et la réception de messages entre utilisateurs: https://adel.adrar-formation.eu/pluginfile.php/27906/mod_assign/intro/exercice_node_js.sql
-
 #Créez un nouveau projet Node.js avec les dépendances suivantes:
 
 #express (nécessaire pour le serveur HTTP) Documentation
